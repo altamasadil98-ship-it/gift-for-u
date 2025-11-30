@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tumhare Liye Ek Chhota Sa Tohfa ❤️</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for custom colors and font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-pink': '#FF69B4', // Hot Pink
+                        'secondary-red': '#E94F64', // Rose Red
+                        'pastel-pink': '#FEE2E2', // bg-red-100 equivalent
+                        'soft-bg': '#FFF7F7',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    keyframes: {
+                        pulseHeart: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                        }
+                    },
+                    animation: {
+                        pulseHeart: 'pulseHeart 2s infinite ease-in-out',
+                    }
+                },
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        /* Custom styles for the compliment wheel */
+        #compliment-wheel {
+            /* The wheel will spin using JS/CSS transform, the background is just a solid color placeholder */
+            background-image: conic-gradient(
+                #F8B195 0% 12.5%,
+                #F67280 12.5% 25%,
+                #C06C84 25% 37.5%,
+                #6C5B7B 37.5% 50%,
+                #355C7D 50% 62.5%,
+                #6dd5ed 62.5% 75%,
+                #ff9a8b 75% 87.5%,
+                #FF69B4 87.5% 100%
+            );
+        }
+        
+        /* UPDATED CSS: Arrow ab neeche ki taraf point karega */
+        #wheel-pointer {
+            width: 0; 
+            height: 0; 
+            border-left: 10px solid transparent; /* Left side of triangle */
+            border-right: 10px solid transparent; /* Right side of triangle */
+            border-top: 20px solid #FF69B4; /* Base/color of the triangle (pointing down) */
+            margin-top: 10px; /* Neeche se thoda space dega */
+        }
+
+    </style>
+</head>
+<body class="bg-soft-bg min-h-screen flex items-center justify-center p-4 font-sans text-gray-800">
+
+    <div id="app-container" class="w-full max-w-4xl bg-white shadow-2xl rounded-3xl p-6 md:p-12 border-4 border-primary-pink/50 backdrop-blur-sm">
+        
+        <!-- Welcome Screen (Initial State) -->
+        <div id="welcome-screen" class="text-center transition-opacity duration-700">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-secondary-red mb-4 animate-pulseHeart">
+                Hello, Meri Jaan!
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 mb-8">
+                Maine yeh chhota sa space sirf tumhare liye banaya hai. Kuch chote surprises ke liye taiyar ho jao!
+            </p>
+            <button 
+                onclick="startJourney()" 
+                class="bg-primary-pink hover:bg-secondary-red text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105 active:scale-95 border-2 border-white focus:outline-none focus:ring-4 focus:ring-primary-pink/50 text-lg md:text-xl">
+                Shuru Karne Ke Liye Yahan Click Karo!
+            </button>
+        </div>
+
+        <!-- Surprise Menu Screen -->
+        <div id="surprise-menu" class="hidden text-center transition-opacity duration-700">
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary-red mb-10">
+                Apna Surprise Kholne Ke Liye Ek Dil Chuno!
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Surprise 1: A Message -->
+                <div class="group">
+                    <button onclick="showCard('message-card')" class="w-full h-full p-6 bg-pastel-pink rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform group-hover:scale-105 border-4 border-pastel-pink group-hover:border-primary-pink/80 flex flex-col items-center justify-center">
+                        <span class="text-6xl mb-3 text-secondary-red">💌</span>
+                        <p class="text-xl font-semibold text-primary-pink">Mere Dil Se Ek Paigham</p>
+                        <p class="text-sm text-gray-500 mt-1">Padne ke liye click karo</p>
+                    </button>
+                </div>
+                
+                <!-- Surprise 2: Compliment Wheel (Replaces Coupon) -->
+                <div class="group">
+                    <button onclick="showCard('memory-card')" class="w-full h-full p-6 bg-pastel-pink rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform group-hover:scale-105 border-4 border-pastel-pink group-hover:border-primary-pink/80 flex flex-col items-center justify-center">
+                        <span class="text-6xl mb-3 text-secondary-red">🎡</span>
+                        <p class="text-xl font-semibold text-primary-pink">Tareef Ke Liye Spin Karo!</p>
+                        <p class="text-sm text-gray-500 mt-1">Khelne ke liye click karo</p>
+                    </button>
+                </div>
+                
+                <!-- Surprise 3: A Promise -->
+                <div class="group">
+                    <button onclick="showCard('promise-card')" class="w-full h-full p-6 bg-pastel-pink rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform group-hover:scale-105 border-4 border-pastel-pink group-hover:border-primary-pink/80 flex flex-col items-center justify-center">
+                        <span class="text-6xl mb-3 text-secondary-red">✨</span>
+                        <p class="text-xl font-semibold text-primary-pink">Humare Future Ke Liye Ek Vaada</p>
+                        <p class="text-sm text-gray-500 mt-1">Janne ke liye click karo</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 1: Message Content -->
+        <div id="message-card" class="hidden text-center max-w-2xl mx-auto p-6 md:p-8 bg-white rounded-xl shadow-xl border-t-8 border-primary-pink transition-opacity duration-700">
+            <h3 class="text-3xl font-bold text-primary-pink mb-4">"Main Tumse Pyaar Karta Hoon" Sandesh</h3>
+            <p class="text-lg text-gray-700 text-left leading-relaxed italic mb-6">
+                Meri Pyaari Noureen, tum sabse azeem insaan ho jise main jaanta hoon. 💖 Tumhare saath har din ek tohfa hai jise main sanjota hoon. 🎁 Tumhari muskaan meri duniya roshan karti hai, 😊 tumhara pyaar mujhe himmat deta hai, 💪 aur tumhari maujoodgi sab kuch behtar bana deti hai. 🌟 Main hamesha tumhara shukraguzar rahunga. Thank you for being you. 🙏 Main tumse itna pyaar karta hoon ki lafzon mein bayaan nahi kar sakta. 😘
+            </p>
+            <button onclick="backToMenu()" class="text-secondary-red hover:text-primary-pink font-semibold mt-4 flex items-center mx-auto transition duration-200">
+                <span class="text-xl mr-2">💖</span> Surprises Menu Par Waapas Chalo
+            </button>
+        </div>
+
+        <!-- Card 2: Compliment Wheel Content -->
+        <div id="memory-card" class="hidden text-center max-w-2xl mx-auto p-6 md:p-8 bg-white rounded-xl shadow-xl border-t-8 border-secondary-red transition-opacity duration-700">
+            <h3 class="text-3xl font-bold text-secondary-red mb-6">Ek Secret Tareef Ke Liye Spin Karo!</h3>
+            
+            <!-- Wheel Container -->
+            <div class="flex flex-col items-center justify-center mb-6">
+                <!-- Pointer (UPDATED to point DOWN) -->
+                <div id="wheel-pointer"></div>
+                
+                <!-- Wheel (Simple Circle for visualization) -->
+                <div id="compliment-wheel" class="w-48 h-48 rounded-full flex items-center justify-center shadow-xl transition-transform duration-500 ease-out relative overflow-hidden">
+                    <span class="text-white text-xl font-bold">SPIN KARO!</span>
+                </div>
+            </div>
+
+            <!-- Result Display -->
+            <p id="compliment-result" class="text-xl font-semibold text-gray-700 min-h-[3rem] mb-4">
+                Neeche diye button par click karo aur dekho wheel mein tumhare liye kya hai.
+            </p>
+            
+            <button 
+                id="spin-button"
+                onclick="spinWheel()" 
+                class="bg-secondary-red hover:bg-primary-pink text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105 active:scale-95 text-lg">
+                Wheel Ghumao!
+            </button>
+
+            <button onclick="backToMenu()" class="text-secondary-red hover:text-primary-pink font-semibold mt-4 flex items-center mx-auto transition duration-200">
+                <span class="text-xl mr-2">💖</span> Surprises Menu Par Waapas Chalo
+            </button>
+        </div>
+
+        <!-- Card 3: Promise Content -->
+        <div id="promise-card" class="hidden text-center max-w-2xl mx-auto p-6 md:p-8 bg-white rounded-xl shadow-xl border-t-8 border-primary-pink transition-opacity duration-700">
+            <h3 class="text-3xl font-bold text-primary-pink mb-4">Tumse Ek Vaada</h3>
+            <div class="text-lg text-gray-700 text-left leading-relaxed mb-6 border p-4 rounded-lg bg-red-50/50">
+                <ul class="list-disc list-inside space-y-2">
+                    <li class="flex items-start">
+                        <span class="text-secondary-red mr-2 font-bold">✓</span>
+                        Main hamesha sununga, tab bhi jab tumhein lage main nahi sun raha.
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-secondary-red mr-2 font-bold">✓</span>
+                        Main hamesha tumhara sabse bada supporter aur cheerleader rahunga.
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-secondary-red mr-2 font-bold">✓</span>
+                        Main tumhare liye har subah coffee/chai banaunga (ya jab bhi tumhein sabse zyada zaroorat ho).
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-secondary-red mr-2 font-bold">✓</span>
+                        Main tumse har din, gehra aur saccha pyaar karunga.
+                    </li>
+                </ul>
+            </div>
+            <button onclick="backToMenu()" class="text-secondary-red hover:text-primary-pink font-semibold mt-4 flex items-center mx-auto transition duration-200">
+                <span class="text-xl mr-2">💖</span> Surprises Menu Par Waapas Chalo
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const surpriseMenu = document.getElementById('surprise-menu');
+        const cards = [
+            document.getElementById('message-card'),
+            document.getElementById('memory-card'),
+            document.getElementById('promise-card')
+        ];
+        
+        // Function to hide all sections (except the main container)
+        function hideAll() {
+            welcomeScreen.classList.add('hidden');
+            surpriseMenu.classList.add('hidden');
+            cards.forEach(card => card.classList.add('hidden'));
+        }
+
+        // 1. Starts the journey from the welcome screen
+        function startJourney() {
+            hideAll();
+            // Wait for transition effect before showing the next screen
+            setTimeout(() => {
+                surpriseMenu.classList.remove('hidden');
+            }, 100); 
+        }
+
+        // 2. Shows a specific surprise card
+        function showCard(cardId) {
+            hideAll();
+            // Wait for transition effect
+            setTimeout(() => {
+                const card = document.getElementById(cardId);
+                if (card) {
+                    card.classList.remove('hidden');
+                }
+            }, 100);
+        }
+
+        // 3. Goes back to the main menu
+        function backToMenu() {
+            hideAll();
+            // Wait for transition effect
+            setTimeout(() => {
+                surpriseMenu.classList.remove('hidden');
+            }, 100);
+        }
+
+        // Compliment Wheel Logic
+        const compliments = [
+            "Tum jis bhi kamre mein aati ho, roshni kar deti ho. ✨",
+            "Tumhara sense of humor lajawab hai. 😂",
+            "Tum behad meharbaan aur dayalu ho. 😇",
+            "Main tumhari samajhdari aur jigyasa ki tareef karta hoon. 🧠",
+            "Tum andar aur baahar se sabse khoobsurat insaan ho. ❤️",
+            "Tum hamesha jaanti ho ki mujhe kaise behtar feel karana hai. 😊",
+            "Mujhe tumhari hansi ki awaaz se pyaar hai. 🎶",
+            "Tum mujhe ek behtar insaan banne ke liye inspire karti ho. 🌟"
+        ];
+
+        function spinWheel() {
+            const resultDisplay = document.getElementById('compliment-result');
+            const wheel = document.getElementById('compliment-wheel');
+            const spinButton = document.getElementById('spin-button');
+
+            // Disable button and reset display
+            spinButton.disabled = true;
+            spinButton.textContent = 'Ghum Raha Hai...';
+            resultDisplay.textContent = '...Ek khaas sandesh aa raha hai...';
+            
+            // Immediately reset the transition and transform for a clean start
+            wheel.style.transition = 'none';
+            wheel.style.transform = `rotate(0deg)`;
+            
+            // Force reflow to apply the reset instantly
+            wheel.offsetHeight;
+
+            // --- Spinning Calculation ---
+            const sectors = compliments.length;
+            const degreesPerSector = 360 / sectors;
+            
+            // Select a random compliment index
+            const randomIndex = Math.floor(Math.random() * sectors);
+            
+            // Calculate the final angle:
+            // (7 full rotations * 360 degrees) + (angle to stop at the chosen sector) + (a little offset within the sector)
+            const offset = degreesPerSector / 2; // Aim for the center of the sector
+            // We calculate the angle to stop the pointer (which is at the top center)
+            const stopAngle = 360 - (randomIndex * degreesPerSector + offset);
+            const totalRotation = (7 * 360) + stopAngle; // Spin 7 full times for effect
+
+            // Apply the spin animation
+            wheel.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)'; // Classic easing for wheel spin
+            wheel.style.transform = `rotate(${totalRotation}deg)`;
+
+            // Display the result after the spinning stops (5 seconds)
+            setTimeout(() => {
+                // Re-enable button
+                spinButton.disabled = false;
+                spinButton.textContent = 'Phir Se Ghumao!';
+                
+                // Display the compliment
+                resultDisplay.textContent = `🎉 ${compliments[randomIndex]} 🎉`;
+                
+                // Reset the visual wheel position to 0 degrees for the next spin 
+                // This makes the transition smooth for the next spin
+                wheel.style.transition = 'none';
+                wheel.style.transform = `rotate(0deg)`;
+
+            }, 5000); // Must match the CSS transition duration
+        }
+
+
+        // Initial setup for the welcome screen to fade in nicely
+        window.onload = () => {
+             // You can use the prompt() function to get her name if you want a true personalization!
+             // let herName = prompt("What's your name, beautiful?");
+             // if (herName) {
+             //     document.querySelector('#welcome-screen h1').textContent = `Hello, My Love, ${herName}!`;
+             //     // Update other parts with her name
+             // }
+        };
+
+    </script>
+</body>
+</html>
